@@ -11,6 +11,5 @@ del machine_receive_01
 rs = Rsync(dispatcher=ld, receiver=lr_01)
 
 while True:
-    if ld.media_path_has_content():
-        rs.sync(ld.found_files)
+    rs.sync(ld.found_files())
     sleep(ld.wait_seconds)
