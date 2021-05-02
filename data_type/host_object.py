@@ -17,6 +17,7 @@ class LocalDispatcher:
         self.clean_up = clean_up
         self.wait_seconds = wait_seconds
         self.source = self.build_source()
+        self.found_files = list()
 
     def build_source(self) -> str:
         source = ''
@@ -24,10 +25,12 @@ class LocalDispatcher:
         return source
 
     def media_path_has_content(self) -> bool:
+        del self.found_files
         found_files = list()
         for root, _, files in walk(self.path_to_media):
             for file in files:
                 found_files.append(Path(root, file))
+        self.found_files = found_files
         return True if found_files else False
 
 
@@ -40,7 +43,7 @@ class LocalReceiver:
         self.user_name = machine['user_name']
         self.path_to_receive = machine['path to receive']
         # build
-        self.destination = self.build_destination()
+        self._destination = self.build_destination()
 
     def build_destination(self) -> str:
         destination = ''
@@ -50,3 +53,11 @@ class LocalReceiver:
         destination = destination + ':'
         destination = destination + self.path_to_receive
         return destination
+
+    @property
+    def destination(self):
+        return self._destination
+
+    @destination.setter
+    def destination(self, value):
+        print(f'do not use this setter, setting \'{value}\' failed')
