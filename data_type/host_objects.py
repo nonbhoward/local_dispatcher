@@ -1,4 +1,5 @@
-from local.secret import
+from local.secret import machine_dispatch_01
+from local.secret import machine_receive_01
 from pathlib import Path
 
 
