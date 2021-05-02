@@ -17,21 +17,21 @@ class LocalDispatcher:
         self.clean_up = clean_up
         self.wait_seconds = wait_seconds
         self.source = self.build_source()
-        self.found_files = list()
+        self.found_file_list = list()
 
     def build_source(self) -> str:
         source = ''
         source = source + self.path_to_media
         return source
 
-    def media_path_has_content(self) -> bool:
-        del self.found_files
+    def found_files(self) -> list:
+        del self.found_file_list
         found_files = list()
         for root, _, files in walk(self.path_to_media):
             for file in files:
                 found_files.append(Path(root, file))
-        self.found_files = found_files
-        return True if found_files else False
+        self.found_file_list = found_files
+        return found_files
 
 
 class LocalReceiver:
