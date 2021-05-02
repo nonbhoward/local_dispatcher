@@ -28,11 +28,13 @@ class Rsync:
                 args=command,
                 capture_output=True)
             if not client_returns_daemonized_(output):
-                print(f'the rsync daemon is not setup on the receiver')
+                print(f'rsync daemon is not setup on the receiver')
             outputs.append(output)
         return outputs
 
     def sync(self, files):
+        if not files:
+            return
         self.execute_command_with_(files)
 
 
