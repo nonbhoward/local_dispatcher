@@ -3,24 +3,40 @@ from subprocess import run
 
 class Rsync:
     def __init__(self,
-                 source,
-                 destination):
-        self.source = source
-        self.destination = destination
+                 dispatcher,
+                 receiver):
+        self.dispatcher = dispatcher
+        self.receiver = receiver
 
-    def build_command(self) -> list:
+    def build_command_with_(self, file) -> list:
         command = [
-            'rsync',
-            '-uvah --stats --progress',
-            self.source,
-            self.destination]
+            "rsync",
+            "-uvah",
+            "--stats",
+            "--progress",
+            str(file),
+            self.receiver.destination]
         return command
 
-    def execute(self):
-        output = run(
-            args=self.build_command(),
-            capture_output=True)
-        return output
+    def execute_command_with_(self, files):
+        commands, outputs = list(), list()
+        for file in files:
+            command = self.build_command_with_(file)
+            commands.append(command)
+        for command in commands:
+            output = run(
+                args=command,
+                capture_output=True)
+            if not client_returns_daemonized_(output):
+                print(f'the rsync daemon is not setup on the receiver')
+            outputs.append(output)
+        return outputs
 
-    def sync(self):
-        self.execute()
+    def sync(self, files):
+        self.execute_command_with_(files)
+
+
+def client_returns_daemonized_(output) -> bool:
+    password_request = 'askpass'
+    output = str(output)
+    return False if password_request in output else True
