@@ -5,6 +5,7 @@ machine_dispatch_01 = {
 machine_receive_01 = {
     # for example : abc.def.g.h
     'ip address':       '',
+    'rsyncd module':    '',
     # not used
     'password':         '',
     'user_name':        '',
