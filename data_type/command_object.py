@@ -8,7 +8,7 @@ class Rsync:
         self.dispatcher = dispatcher
         self.receiver = receiver
 
-    def build_command_with_(self, file) -> list:
+    def build_rsync_command_with_(self, file) -> list:
         command = [
             "rsync",
             "-uvah",
@@ -18,10 +18,21 @@ class Rsync:
             self.receiver.destination]
         return command
 
+    def build_rsyncd_command_with_(self, file) -> list:
+        command = [
+            "rsync",
+            "-uvah",
+            "--stats",
+            "--progress",
+            str(file),
+            self.receiver.module_destination
+        ]
+        return command
+
     def execute_command_with_(self, files):
         commands, outputs = list(), list()
         for file in files:
-            command = self.build_command_with_(file)
+            command = self.build_rsyncd_command_with_(file)
             commands.append(command)
         for command in commands:
             output = run(
