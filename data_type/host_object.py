@@ -39,19 +39,21 @@ class LocalReceiver:
                  machine: dict):
         # save
         self.ip_address = machine['ip address']
+        self.rsyncd_module = machine['rsyncd module']
         self.password = machine['password']
         self.user_name = machine['user_name']
         self.path_to_receive = machine['path to receive']
         # build
         self._destination = self.build_destination()
+        self._rsyncd_module_destination = self.build_module_destination()
 
     def build_destination(self) -> str:
-        destination = ''
-        destination = destination + self.user_name
-        destination = destination + '@'
-        destination = destination + self.ip_address
-        destination = destination + ':'
-        destination = destination + self.path_to_receive
+        destination = '' + self.user_name + '@' + self.ip_address + \
+                      ':' + self.path_to_receive
+        return destination
+
+    def build_module_destination(self) -> str:
+        destination = self.destination.split(':')[0] + '::' + self.rsyncd_module
         return destination
 
     @property
@@ -60,4 +62,12 @@ class LocalReceiver:
 
     @destination.setter
     def destination(self, value):
+        print(f'do not use this setter, setting \'{value}\' failed')
+
+    @property
+    def module_destination(self):
+        return self._rsyncd_module_destination
+
+    @module_destination.setter
+    def module_destination(self, value):
         print(f'do not use this setter, setting \'{value}\' failed')
