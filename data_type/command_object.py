@@ -39,7 +39,7 @@ class Rsync:
                 args=command,
                 capture_output=True)
             if not client_returns_daemonized_(output):
-                print(f'rsync daemon is not setup on the receiver')
+                print(f'rsync daemon is not correctly setup on the receiver')
             outputs.append(output)
         return outputs
 
