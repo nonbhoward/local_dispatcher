@@ -20,8 +20,7 @@ class LocalDispatcher:
         self.found_file_list = list()
 
     def build_source(self) -> str:
-        source = ''
-        source = source + self.path_to_media
+        source = '' + self.path_to_media
         return source
 
     def found_files(self) -> list:
