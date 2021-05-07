@@ -5,10 +5,9 @@ from local.secret import machine_dispatch_01
 from local.secret import machine_receive_01
 from time import sleep
 ld = LocalDispatcher(machine=machine_dispatch_01)
-del machine_dispatch_01
 lr_01 = LocalReceiver(machine=machine_receive_01)
-del machine_receive_01
 rs = Rsync(dispatcher=ld, receiver=lr_01)
+del machine_dispatch_01, machine_receive_01, lr_01  # clean up
 
 while True:
     rs.sync(ld.found_files())
